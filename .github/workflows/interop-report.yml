@@ -54,6 +54,7 @@ jobs:
           path: main
 
       - name: Checkout gh-pages
+        if: github.repository == 'englishm/moq-interop-runner'
         uses: actions/checkout@v4
         with:
           ref: gh-pages
