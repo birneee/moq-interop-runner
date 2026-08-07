@@ -12,7 +12,7 @@
 # For local Docker-based testing, you need to provide images.
 # See IMPLEMENTATIONS.md for how to register your implementation.
 
-SHELL := /bin/bash
+SHELL := $(shell command -v bash)
 
 .PHONY: test test-verbose test-single test-external clean mlog-clean certs \
         interop-all interop-docker interop-remote interop-relay interop-client interop-list \

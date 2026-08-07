@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # build.sh - Build the MOQ5 (libmoq) interop test client Docker image
 #
 # Usage:

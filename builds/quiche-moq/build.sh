@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # build.sh - Build quiche-moq Docker images from source
 #
 # Usage:

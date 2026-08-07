@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # validate-registration.sh - Validate implementations.json registration changes.
 #
 # Runs the default checks for a PR that adds/removes/edits a client or relay

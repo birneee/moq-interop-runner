@@ -1,0 +1,14 @@
+{
+  "name": "birneee-moq",
+  "description": "birneee/quiche_moq - Rust MoQT implementation built on Cloudflare's quiche",
+  "repository": "https://github.com/birneee/quiche_moq.git",
+  "default_ref": "main",
+  "notes": "Built with `nix build .#interop-image` + `docker load`, not a Dockerfile. One image serves both roles via MOQT_ROLE. Requires Nix.",
+  "targets": {
+    "image": {
+      "nixAttr": "interop-image",
+      "image_name": "birneee-moq",
+      "roles": ["relay", "client"]
+    }
+  }
+}

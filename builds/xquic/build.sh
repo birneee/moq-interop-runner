@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # build.sh - Build xquic MoQ Docker images from source
 #
 # Usage:

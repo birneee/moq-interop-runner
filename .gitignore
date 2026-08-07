@@ -14,6 +14,9 @@ mlog/
 builds/*/.sources/
 builds/*/.last-build.json
 
+# nix build output symlinks (e.g. builds/birneee-moq/build.sh's `nix build -o`)
+builds/*/.result-*
+
 # Extra CA certificates for TLS inspection (environment-specific)
 extra-ca.pem
 builds/*/extra-ca.pem

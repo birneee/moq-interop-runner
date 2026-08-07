@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # lib/tap-parser.sh - Parse TAP14 output from test client log files
 #
 # Extracts pass/fail/skip counts from TAP version 14 output.

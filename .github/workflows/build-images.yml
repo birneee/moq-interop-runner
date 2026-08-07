@@ -24,6 +24,7 @@ on:
           - moq-rs-draft-18-client
           - moq-go
           - moqtopus-client
+          - birneee-moq
       ref:
         description: 'Git ref for source builds (branch/tag/commit). Ignored for adapters.'
         required: false
@@ -176,11 +177,30 @@ jobs:
               echo "build_command=./builds/moqtopus/build.sh --ref $REF --target client" >> "$GITHUB_OUTPUT"
               echo 'images=[{"local":"moqtopus-interop-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moqtopus-interop-client"}]' >> "$GITHUB_OUTPUT"
               ;;
+            birneee-moq)
+              # Built with Nix, not a Dockerfile - see "Install Nix" below.
+              # One image serves both roles via MOQT_ROLE.
+              REF="${{ inputs.ref }}"
+              REF="${REF:-main}"
+              echo "build_type=build" >> "$GITHUB_OUTPUT"
+              echo "ref=$REF" >> "$GITHUB_OUTPUT"
+              echo "build_command=./builds/birneee-moq/build.sh --ref $REF" >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"birneee-moq:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-birneee-moq"}]' >> "$GITHUB_OUTPUT"
+              ;;
             *)
               echo "::error::Unknown implementation: $IMPL"
               exit 1
               ;;
           esac
+
+      # Only birneee-moq needs Nix (runners don't have it preinstalled).
+      - name: Install Nix
+        if: inputs.implementation == 'birneee-moq'
+        uses: DeterminateSystems/nix-installer-action@main
+
+      - name: Set up Nix build cache
+        if: inputs.implementation == 'birneee-moq'
+        uses: DeterminateSystems/magic-nix-cache-action@main
 
       - name: Build images
         run: |
@@ -203,6 +223,7 @@ jobs:
             moq-rs-draft-18-relay|moq-rs-draft-18-client) IMPL_DIR="builds/moq-rs-draft-18" ;;
             moq-go)                                       IMPL_DIR="builds/moq-go" ;;
             moqtopus-client)                              IMPL_DIR="builds/moqtopus" ;;
+            birneee-moq)                                  IMPL_DIR="builds/birneee-moq" ;;
           esac
 
           if [[ -f "$IMPL_DIR/.last-build.json" ]]; then

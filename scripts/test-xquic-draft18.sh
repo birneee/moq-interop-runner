@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Run the xquic draft-18 client against registered remote raw-QUIC relays and
 # render the runner's result as HTML.
 

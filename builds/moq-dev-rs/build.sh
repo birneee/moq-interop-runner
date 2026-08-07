@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # build.sh - Build moq-dev-rs test client Docker image
 #
 # Usage:

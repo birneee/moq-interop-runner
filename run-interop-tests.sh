@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # run-interop-tests.sh - Run MoQT interop tests across client x relay pairs
 #
 # For each (client, relay) pair, predicts the negotiated version as the newest

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # lib/test/test-tap-parser.sh - Tests for the TAP parser
 #
 # Run with: bash lib/test/test-tap-parser.sh

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Generate TLS certificates for interop testing
 # Following QUIC interop runner convention: /certs/cert.pem and /certs/priv.key
 #

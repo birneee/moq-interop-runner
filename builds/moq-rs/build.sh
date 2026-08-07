@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # build.sh - Build moq-rs Docker images from source
 #
 # Usage:

@@ -73,6 +73,29 @@
         }
       }
     },
+    "birneee-moq": {
+      "name": "quiche_moq",
+      "organization": "birneee",
+      "repository": "https://github.com/birneee/quiche_moq",
+      "draft_versions": [
+        "draft-18"
+      ],
+      "notes": "Rust implementation on Cloudflare's quiche. WebTransport only.",
+      "roles": {
+        "relay": {
+          "docker": {
+            "image": "birneee-moq:latest",
+            "notes": "Local build only, requires Nix: make build-impl IMPL=birneee-moq BUILD_ARGS=\"--local ~/Git/quiche_moq\""
+          }
+        },
+        "client": {
+          "docker": {
+            "image": "birneee-moq:latest",
+            "notes": "Same image as relay (MOQT_ROLE unset -> client). Local build only, requires Nix: make build-impl IMPL=birneee-moq BUILD_ARGS=\"--local ~/Git/quiche_moq\""
+          }
+        }
+      }
+    },
     "imquic": {
       "name": "imquic",
       "organization": "Meetecho",

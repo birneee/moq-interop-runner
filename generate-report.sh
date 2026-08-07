@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # generate-report.sh - Generate HTML report from test results
 #
 # Usage: ./generate-report.sh [results-dir]
