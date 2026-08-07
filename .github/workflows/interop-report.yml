@@ -47,11 +47,6 @@ jobs:
     timeout-minutes: 120
     permissions:
       contents: write  # publishes to gh-pages
-    # Used below to prefer images published to the running repo/fork's own
-    # GHCR namespace (e.g. a not-yet-upstream-published implementation the
-    # fork owner is testing), falling back to englishm's otherwise.
-    env:
-      GHCR_OWNER: ${{ github.repository_owner }}
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
@@ -74,12 +69,6 @@ jobs:
             | grep '^ghcr.io/' \
             | sort -u \
             | while read -r image; do
-                fork_image=$(echo "$image" | sed "s#ghcr.io/englishm/#ghcr.io/$GHCR_OWNER/#")
-                if [ "$fork_image" != "$image" ] && docker pull "$fork_image" 2>/dev/null; then
-                  echo "Pulled $fork_image (fork build), tagging as $image"
-                  docker tag "$fork_image" "$image"
-                  continue
-                fi
                 echo "Pulling $image..."
                 docker pull "$image" || echo "WARNING: Failed to pull $image"
               done

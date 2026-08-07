@@ -84,14 +84,14 @@
       "roles": {
         "relay": {
           "docker": {
-            "image": "birneee-moq:latest",
-            "notes": "Local build only, requires Nix: make build-impl IMPL=birneee-moq BUILD_ARGS=\"--local ~/Git/quiche_moq\""
+            "image": "ghcr.io/birneee/moq-interop-runner-birneee-moq:latest",
+            "notes": "Published by the author, not englishm's CI. Built with Nix, not a Dockerfile: make build-impl IMPL=birneee-moq BUILD_ARGS=\"--local ~/Git/quiche_moq\""
           }
         },
         "client": {
           "docker": {
-            "image": "birneee-moq:latest",
-            "notes": "Same image as relay (MOQT_ROLE unset -> client). Local build only, requires Nix: make build-impl IMPL=birneee-moq BUILD_ARGS=\"--local ~/Git/quiche_moq\""
+            "image": "ghcr.io/birneee/moq-interop-runner-birneee-moq:latest",
+            "notes": "Same image as relay (MOQT_ROLE unset -> client). Published by the author, not englishm's CI."
           }
         }
       }
