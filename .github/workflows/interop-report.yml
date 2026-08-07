@@ -37,10 +37,10 @@ concurrency:
 
 jobs:
   test-and-publish:
-    # Publishes for effect: nightly schedule, or a maintainer dispatch that is
-    # NOT a dry-run. Never on pull_request.
+    # Runs (tests only, no publish) on schedule or a non-dry-run dispatch,
+    # on any repo/fork - see the Publish step's own repo-gated `if`. Never
+    # on pull_request.
     if: >-
-      github.repository == 'englishm/moq-interop-runner' &&
       github.event_name != 'pull_request' &&
       !(github.event_name == 'workflow_dispatch' && inputs.dry_run)
     runs-on: ubuntu-latest
@@ -104,6 +104,7 @@ jobs:
         run: make interop-all
 
       - name: Publish results
+        if: github.repository == 'englishm/moq-interop-runner'
         run: |
           NEW_RESULT=$(ls -td main/results/*/ 2>/dev/null | head -1)
           if [ -z "$NEW_RESULT" ]; then

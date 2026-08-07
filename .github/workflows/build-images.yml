@@ -49,6 +49,10 @@ permissions:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    # Used in "Configure build" so images push to the running repo/fork's
+    # own GHCR namespace instead of a hardcoded owner.
+    env:
+      GHCR_OWNER: ${{ github.repository_owner }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -67,7 +71,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-rs/build.sh --ref $REF" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-relay-ietf"},{"local":"moq-test-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-test-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-relay-ietf"},{"local":"moq-test-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-test-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-rs-draft-14)
               REF="${{ inputs.ref }}"
@@ -75,7 +79,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-rs/build.sh --repo https://github.com/cloudflare/moq-rs --ref $REF" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-relay-ietf-draft-14"},{"local":"moq-test-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-test-client-draft-14"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-relay-ietf-draft-14"},{"local":"moq-test-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-test-client-draft-14"}]' >> "$GITHUB_OUTPUT"
               ;;
             quiche-moq)
               REF="${{ inputs.ref }}"
@@ -83,31 +87,31 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/quiche-moq/build.sh --ref $REF" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"quiche-moq-relay:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-quiche-moq-relay"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"quiche-moq-relay:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-quiche-moq-relay"}]' >> "$GITHUB_OUTPUT"
               ;;
             moxygen)
               echo "build_type=adapter" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=docker build -t moxygen-interop:latest -f adapters/moxygen/Dockerfile.relay adapters/moxygen/" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moxygen-interop:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moxygen-interop"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moxygen-interop:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moxygen-interop"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-dev-rs)
               echo "build_type=adapter" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=docker build -t moq-dev-rs-interop:latest -f adapters/moq-dev-rs/Dockerfile.relay adapters/moq-dev-rs/" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-dev-rs-interop:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-dev-rs-interop"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-dev-rs-interop:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-dev-rs-interop"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-dev-rs-client)
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-dev-rs/build.sh" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-dev-rs-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-dev-rs-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-dev-rs-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-dev-rs-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-dev-js-client)
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-dev-js/build.sh" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-dev-js-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-dev-js-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-dev-js-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-dev-js-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             xquic-relay)
               REF="${{ inputs.ref }}"
@@ -115,7 +119,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/xquic/build.sh --ref $REF --target relay" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"xquic-moq-relay:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-xquic-moq-relay"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"xquic-moq-relay:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-xquic-moq-relay"}]' >> "$GITHUB_OUTPUT"
               ;;
             xquic-client)
               REF="${{ inputs.ref }}"
@@ -123,7 +127,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/xquic/build.sh --ref $REF --target client" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"xquic-moq-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-xquic-moq-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"xquic-moq-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-xquic-moq-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             xquic-draft-18-client)
               REF="${{ inputs.ref }}"
@@ -131,19 +135,19 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/xquic/build.sh --ref $REF --target client-draft-18" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"xquic-moq-client-draft-18:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-xquic-moq-client-draft-18"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"xquic-moq-client-draft-18:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-xquic-moq-client-draft-18"}]' >> "$GITHUB_OUTPUT"
               ;;
             imquic-relay)
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/imquic/build.sh --target relay" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"imquic-moq-relay:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-imquic-moq-relay"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"imquic-moq-relay:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-imquic-moq-relay"}]' >> "$GITHUB_OUTPUT"
               ;;
             imquic-client)
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/imquic/build.sh --target client" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"imquic-moq-interop-test:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-imquic-moq-interop-test"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"imquic-moq-interop-test:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-imquic-moq-interop-test"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-rs-draft-18-relay)
               REF="${{ inputs.ref }}"
@@ -151,7 +155,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-rs-draft-18/build.sh --ref $REF --target relay" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-relay-ietf-draft-18"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-relay-ietf:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-relay-ietf-draft-18"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-rs-draft-18-client)
               REF="${{ inputs.ref }}"
@@ -159,7 +163,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-rs-draft-18/build.sh --ref $REF --target client" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-test-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-test-client-draft-18"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-test-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-test-client-draft-18"}]' >> "$GITHUB_OUTPUT"
               ;;
             moq-go)
               REF="${{ inputs.ref }}"
@@ -167,7 +171,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moq-go/build.sh --ref $REF" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moq-go-relay:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-go-relay"},{"local":"moq-go-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moq-go-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moq-go-relay:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-go-relay"},{"local":"moq-go-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moq-go-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             moqtopus-client)
               REF="${{ inputs.ref }}"
@@ -175,7 +179,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/moqtopus/build.sh --ref $REF --target client" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"moqtopus-interop-client:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-moqtopus-interop-client"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"moqtopus-interop-client:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-moqtopus-interop-client"}]' >> "$GITHUB_OUTPUT"
               ;;
             birneee-moq)
               # Built with Nix, not a Dockerfile - see "Install Nix" below.
@@ -185,7 +189,7 @@ jobs:
               echo "build_type=build" >> "$GITHUB_OUTPUT"
               echo "ref=$REF" >> "$GITHUB_OUTPUT"
               echo "build_command=./builds/birneee-moq/build.sh --ref $REF" >> "$GITHUB_OUTPUT"
-              echo 'images=[{"local":"birneee-moq:latest","ghcr":"ghcr.io/englishm/moq-interop-runner-birneee-moq"}]' >> "$GITHUB_OUTPUT"
+              echo 'images=[{"local":"birneee-moq:latest","ghcr":"ghcr.io/'"$GHCR_OWNER"'/moq-interop-runner-birneee-moq"}]' >> "$GITHUB_OUTPUT"
               ;;
             *)
               echo "::error::Unknown implementation: $IMPL"
